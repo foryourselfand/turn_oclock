@@ -4,18 +4,25 @@ using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
-    public float speed = 60;
-    private int direction = 1;
+    public float speed;
+    private int direction;
 
     // Use this for initialization
     void Start()
     {
-        direction = -1;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (direction == 0)
+                direction = -1;
+            else
+                direction = -direction;
+        }
+
         transform.Rotate(new Vector3(0, 0, Time.deltaTime * speed * direction));
     }
 }
