@@ -10,6 +10,8 @@ public class Arrow : MonoBehaviour
     public float speed;
     public GameObject dot;
     public Text scoreText;
+    public ColorChanger colorChanger;
+    
     private int score, currentScore;
 
     private int direction;
@@ -82,12 +84,14 @@ public class Arrow : MonoBehaviour
                     gameState = GameState.START;
                     currentScore = score;
                     scoreText.text = currentScore.ToString();
+                    colorChanger.SetPreviousColor();
                     break;
                 case GameState.WIN:
                     transform.rotation = Quaternion.Euler(0, 0, 0);
                     Destroy(GameObject.Find("Dot(Clone)").gameObject);
                     gameState = GameState.START;
                     scoreText.text = currentScore.ToString();
+                    colorChanger.setNewColor();
                     break;
             }
         }
@@ -121,6 +125,7 @@ public class Arrow : MonoBehaviour
     {
         direction = 0;
         gameState = GameState.OVER;
+        colorChanger.setLoseColor();
     }
 
     private void DecreaseScore()
