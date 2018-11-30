@@ -7,22 +7,32 @@ public class Arrow : MonoBehaviour
     public float speed;
     private int direction;
 
-    // Use this for initialization
     void Start()
     {
     }
 
-    // Update is called once per frame
+    public void TurnAround()
+    {
+        direction = -direction;
+    }
+
+    public void TurnRight()
+    {
+        direction = -1;
+    }
+
+    public void TurnLeft()
+    {
+        direction = 1;
+    }
+
+    public int GetDirection()
+    {
+        return direction;
+    }
+
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (direction == 0)
-                direction = -1;
-            else
-                direction = -direction;
-        }
-
         transform.Rotate(new Vector3(0, 0, Time.deltaTime * speed * direction));
     }
 }
