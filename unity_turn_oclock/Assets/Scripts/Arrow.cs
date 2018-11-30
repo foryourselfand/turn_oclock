@@ -2,15 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Vuforia;
 using Random = UnityEngine.Random;
 
 public class Arrow : MonoBehaviour
 {
     public float speed;
     public GameObject dot;
+    public GameObject camera;
     
     private int direction;
-    private bool isNear;
+    private bool isNear, isClicked;
     private GameObject dotToRemove;
 
     private GameState gameState;
@@ -25,6 +27,7 @@ public class Arrow : MonoBehaviour
     {
         direction = 0;
         isNear = false;
+        isClicked = false;
         gameState = GameState.START;
     }
 
@@ -45,8 +48,13 @@ public class Arrow : MonoBehaviour
                     if (isNear)
                     {
                         direction = -direction;
+                        isClicked = true;
                         Destroy(dotToRemove);
                         SpawnNewDot();
+                    }
+                    else
+                    {
+                        GameOver();
                     }
 
                     break;
@@ -61,14 +69,16 @@ public class Arrow : MonoBehaviour
         
     }
 
-
     void OnTriggerExit2D(Collider2D other)
     {
-        isNear = false;
+        if (!isClicked)
+            GameOver();
     }
 
     private void SpawnNewDot()
     {
+        isNear = false;
+        isClicked = false;
         float angle = 0;
         if ((int)Random.Range(0, 2) == 0)
             angle = Random.Range(30, 60) + 20;
@@ -76,5 +86,11 @@ public class Arrow : MonoBehaviour
             angle = Random.Range(10, 30) + 10;
         Instantiate(dot, transform.position,
             Quaternion.Euler(0, 0, angle * direction));
+    }
+
+    private void GameOver()
+    {
+        camera.GetComponent<Camera>().backgroundColor = Color.red;
+        direction = 0;
     }
 }
