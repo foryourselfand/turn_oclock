@@ -2,15 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Vuforia;
 using Random = UnityEngine.Random;
 
 public class Arrow : MonoBehaviour
 {
     public float speed;
     public GameObject dot;
-    public GameObject camera;
-    
+
     private int direction;
     private bool isNear, isClicked;
     private GameObject dotToRemove;
@@ -20,7 +18,8 @@ public class Arrow : MonoBehaviour
     enum GameState
     {
         START,
-        PLAYING
+        PLAYING,
+        OVER
     }
 
     void Start()
@@ -34,7 +33,7 @@ public class Arrow : MonoBehaviour
     void Update()
     {
         transform.Rotate(new Vector3(0, 0, Time.deltaTime * speed * direction));
-        
+
         if (Input.GetMouseButtonDown(0))
         {
             switch (gameState)
@@ -58,6 +57,11 @@ public class Arrow : MonoBehaviour
                     }
 
                     break;
+                case GameState.OVER:
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                    Destroy(GameObject.Find("Dot(Clone)").gameObject);
+                    gameState = GameState.START;
+                    break;
             }
         }
     }
@@ -66,7 +70,6 @@ public class Arrow : MonoBehaviour
     {
         isNear = true;
         dotToRemove = other.gameObject;
-        
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -80,7 +83,7 @@ public class Arrow : MonoBehaviour
         isNear = false;
         isClicked = false;
         float angle = 0;
-        if ((int)Random.Range(0, 2) == 0)
+        if ((int) Random.Range(0, 2) == 0)
             angle = Random.Range(30, 60) + 20;
         else
             angle = Random.Range(10, 30) + 10;
@@ -90,7 +93,7 @@ public class Arrow : MonoBehaviour
 
     private void GameOver()
     {
-        camera.GetComponent<Camera>().backgroundColor = Color.red;
         direction = 0;
+        gameState = GameState.OVER;
     }
 }
