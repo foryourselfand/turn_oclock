@@ -2,16 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 public class Arrow : MonoBehaviour
 {
     public float speed;
     public GameObject dot;
+    public Text scoreText;
+    private int score, currentScore;
 
     private int direction;
     private bool isNear, isClicked;
-    private GameObject dotToRemove;
 
     private GameState gameState;
 
@@ -19,7 +21,8 @@ public class Arrow : MonoBehaviour
     {
         START,
         PLAYING,
-        OVER
+        OVER,
+        WIN
     }
 
     void Start()
@@ -28,6 +31,8 @@ public class Arrow : MonoBehaviour
         isNear = false;
         isClicked = false;
         gameState = GameState.START;
+        score = 1;
+        currentScore = 1;
     }
 
     void Update()
@@ -48,8 +53,22 @@ public class Arrow : MonoBehaviour
                     {
                         direction = -direction;
                         isClicked = true;
-                        Destroy(dotToRemove);
-                        SpawnNewDot();
+                    
+                        DecreaseScore();
+                        if (currentScore == 0)
+                        {
+                            score++;
+                            currentScore = score;
+
+                            direction = 0;
+                            gameState = GameState.WIN;
+                        }
+                        else
+                        {
+                            Destroy(GameObject.Find("Dot(Clone)").gameObject);
+                            SpawnNewDot();
+                        }
+                        
                     }
                     else
                     {
@@ -61,6 +80,14 @@ public class Arrow : MonoBehaviour
                     transform.rotation = Quaternion.Euler(0, 0, 0);
                     Destroy(GameObject.Find("Dot(Clone)").gameObject);
                     gameState = GameState.START;
+                    currentScore = score;
+                    scoreText.text = currentScore.ToString();
+                    break;
+                case GameState.WIN:
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                    Destroy(GameObject.Find("Dot(Clone)").gameObject);
+                    gameState = GameState.START;
+                    scoreText.text = currentScore.ToString();
                     break;
             }
         }
@@ -69,7 +96,6 @@ public class Arrow : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other)
     {
         isNear = true;
-        dotToRemove = other.gameObject;
     }
 
     void OnTriggerExit2D(Collider2D other)
@@ -95,5 +121,11 @@ public class Arrow : MonoBehaviour
     {
         direction = 0;
         gameState = GameState.OVER;
+    }
+
+    private void DecreaseScore()
+    {
+        currentScore -= 1;
+        scoreText.text = currentScore.ToString();
     }
 }
