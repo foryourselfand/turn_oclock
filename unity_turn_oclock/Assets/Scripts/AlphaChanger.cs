@@ -22,12 +22,12 @@ public class AlphaChanger : MonoBehaviour
 		named.color = Vector4.MoveTowards(named.color, target, Time.deltaTime * speed);		
 	}
 
-	public void FromHeightToLow()
+	public void FromStartToEnd()
 	{
 		target = end;
 	}
 	
-	public void FromLowToHeight()
+	public void FromEndToStart()
 	{
 		target = start;
 	}

@@ -15,7 +15,7 @@ public class ColorChanger : MonoBehaviour
     void Start()
     {
         camera = GetComponent<Camera>();
-        setNewColor();
+        SetNewColor();
     }
 
     public void SetPreviousColor()
@@ -23,19 +23,19 @@ public class ColorChanger : MonoBehaviour
         camera.backgroundColor = previousColor;
     }
 
-    public void setNewColor()
+    public void SetNewColor()
     {
         Color newColor;
         do
         {
-            newColor = colors[Random.Range(0, 3)];
+            newColor = colors[Random.Range(0, colors.Length)];
         } while (newColor == previousColor);
 
         previousColor = newColor;
         SetPreviousColor();
     }
 
-    public void setLoseColor()
+    public void SetLoseColor()
     {
         camera.backgroundColor = loseColor;
     }

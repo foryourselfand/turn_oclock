@@ -8,10 +8,10 @@ using Random = UnityEngine.Random;
 public class Arrow : MonoBehaviour
 {
     public float speed;
-    
+
     public GameObject dot;
     public ColorChanger colorChanger;
-    
+
     public Text scoreText;
     public AlphaChanger scoreAlpha;
 
@@ -52,13 +52,13 @@ public class Arrow : MonoBehaviour
             switch (gameState)
             {
                 case GameState.START:
-                    direction = -1;
+                    direction = Random.Range(0, 2) == 0 ? -1 : 1;
                     gameState = GameState.PLAYING;
                     SpawnNewDot();
-                    dialogAlpha.FromHeightToLow();
-                    scoreAlpha.FromHeightToLow();
+                    dialogAlpha.FromStartToEnd();
+                    scoreAlpha.FromStartToEnd();
                     break;
-                
+
                 case GameState.PLAYING:
                     if (isNear)
                     {
@@ -73,7 +73,7 @@ public class Arrow : MonoBehaviour
 
                             direction = 0;
                             gameState = GameState.WIN;
-                            dialogAlpha.FromLowToHeight();
+                            dialogAlpha.FromEndToStart();
                             dialogSystem.RandomWin();
                         }
                         else
@@ -83,6 +83,7 @@ public class Arrow : MonoBehaviour
                     }
                     else
                         GameOver();
+
                     break;
 
                 case GameState.OVER:
@@ -98,8 +99,8 @@ public class Arrow : MonoBehaviour
                     transform.rotation = Quaternion.Euler(0, 0, 0);
                     gameState = GameState.START;
                     scoreText.text = currentScore.ToString();
-                    colorChanger.setNewColor();
-                    scoreAlpha.FromLowToHeight();
+                    colorChanger.SetNewColor();
+                    scoreAlpha.FromEndToStart();
                     break;
             }
         }
@@ -120,11 +121,7 @@ public class Arrow : MonoBehaviour
     {
         isNear = false;
         isClicked = false;
-        float angle = 0;
-        if ((int) Random.Range(0, 2) == 0)
-            angle = Random.Range(30, 60) + 20;
-        else
-            angle = Random.Range(10, 30) + 10;
+        float angle = Random.Range(0, 2) == 0 ? Random.Range(30, 60) + 20 : Random.Range(10, 30) + 10;
         Instantiate(dot, transform.position,
             Quaternion.Euler(0, 0, angle * direction));
     }
@@ -133,8 +130,8 @@ public class Arrow : MonoBehaviour
     {
         direction = 0;
         gameState = GameState.OVER;
-        colorChanger.setLoseColor();
-        dialogAlpha.FromLowToHeight();
+        colorChanger.SetLoseColor();
+        dialogAlpha.FromEndToStart();
         dialogSystem.RandomLose();
     }
 
