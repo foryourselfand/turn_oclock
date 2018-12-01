@@ -8,11 +8,14 @@ using Random = UnityEngine.Random;
 public class Arrow : MonoBehaviour
 {
     public float speed;
+    
     public GameObject dot;
     public ColorChanger colorChanger;
     
     public Text scoreText;
-    public AlphaChanger dialog;
+    
+    public AlphaChanger dialogAlpha;
+    public AlphaChanger scoreAlpha;
 
     private int score, currentScore;
 
@@ -51,7 +54,8 @@ public class Arrow : MonoBehaviour
                     direction = -1;
                     gameState = GameState.PLAYING;
                     SpawnNewDot();
-                    dialog.FromHeightToLow();
+                    dialogAlpha.FromHeightToLow();
+                    scoreAlpha.FromHeightToLow();
                     break;
                 
                 case GameState.PLAYING:
@@ -68,7 +72,7 @@ public class Arrow : MonoBehaviour
 
                             direction = 0;
                             gameState = GameState.WIN;
-                            dialog.FromLowToHeight();
+                            dialogAlpha.FromLowToHeight();
                         }
                         else
                         {
@@ -93,6 +97,7 @@ public class Arrow : MonoBehaviour
                     gameState = GameState.START;
                     scoreText.text = currentScore.ToString();
                     colorChanger.setNewColor();
+                    scoreAlpha.FromLowToHeight();
                     break;
             }
         }
@@ -127,7 +132,7 @@ public class Arrow : MonoBehaviour
         direction = 0;
         gameState = GameState.OVER;
         colorChanger.setLoseColor();
-        dialog.FromLowToHeight();
+        dialogAlpha.FromLowToHeight();
     }
 
     private void DecreaseScore()
