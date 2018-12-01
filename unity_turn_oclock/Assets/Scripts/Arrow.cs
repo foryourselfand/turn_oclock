@@ -13,9 +13,10 @@ public class Arrow : MonoBehaviour
     public ColorChanger colorChanger;
     
     public Text scoreText;
-    
-    public AlphaChanger dialogAlpha;
     public AlphaChanger scoreAlpha;
+
+    public DialogSystem dialogSystem;
+    public AlphaChanger dialogAlpha;
 
     private int score, currentScore;
 
@@ -73,6 +74,7 @@ public class Arrow : MonoBehaviour
                             direction = 0;
                             gameState = GameState.WIN;
                             dialogAlpha.FromLowToHeight();
+                            dialogSystem.RandomWin();
                         }
                         else
                         {
@@ -133,6 +135,7 @@ public class Arrow : MonoBehaviour
         gameState = GameState.OVER;
         colorChanger.setLoseColor();
         dialogAlpha.FromLowToHeight();
+        dialogSystem.RandomLose();
     }
 
     private void DecreaseScore()
