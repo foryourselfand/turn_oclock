@@ -11,7 +11,7 @@ public class ColorChanger : MonoBehaviour
 
     private Color previousColor;
 
-    
+
     void Start()
     {
         camera = GetComponent<Camera>();
@@ -26,12 +26,9 @@ public class ColorChanger : MonoBehaviour
     public void setNewColor()
     {
         Color newColor;
-        int num;
         do
         {
-            num = Random.Range(0, 3);
-            newColor = colors[num];
-            Debug.Log(num.ToString());
+            newColor = colors[Random.Range(0, 3)];
         } while (newColor == previousColor);
 
         previousColor = newColor;

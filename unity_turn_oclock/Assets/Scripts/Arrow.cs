@@ -9,9 +9,11 @@ public class Arrow : MonoBehaviour
 {
     public float speed;
     public GameObject dot;
-    public Text scoreText;
     public ColorChanger colorChanger;
     
+    public Text scoreText;
+    public AlphaChanger dialog;
+
     private int score, currentScore;
 
     private int direction;
@@ -49,13 +51,15 @@ public class Arrow : MonoBehaviour
                     direction = -1;
                     gameState = GameState.PLAYING;
                     SpawnNewDot();
+                    dialog.FromHeightToLow();
                     break;
+                
                 case GameState.PLAYING:
                     if (isNear)
                     {
                         direction = -direction;
                         isClicked = true;
-                    
+                        Destroy(GameObject.Find("Dot(Clone)").gameObject);
                         DecreaseScore();
                         if (currentScore == 0)
                         {
@@ -64,20 +68,17 @@ public class Arrow : MonoBehaviour
 
                             direction = 0;
                             gameState = GameState.WIN;
+                            dialog.FromLowToHeight();
                         }
                         else
                         {
-                            Destroy(GameObject.Find("Dot(Clone)").gameObject);
                             SpawnNewDot();
                         }
-                        
                     }
                     else
-                    {
                         GameOver();
-                    }
-
                     break;
+
                 case GameState.OVER:
                     transform.rotation = Quaternion.Euler(0, 0, 0);
                     Destroy(GameObject.Find("Dot(Clone)").gameObject);
@@ -86,9 +87,9 @@ public class Arrow : MonoBehaviour
                     scoreText.text = currentScore.ToString();
                     colorChanger.SetPreviousColor();
                     break;
+
                 case GameState.WIN:
                     transform.rotation = Quaternion.Euler(0, 0, 0);
-                    Destroy(GameObject.Find("Dot(Clone)").gameObject);
                     gameState = GameState.START;
                     scoreText.text = currentScore.ToString();
                     colorChanger.setNewColor();
@@ -126,6 +127,7 @@ public class Arrow : MonoBehaviour
         direction = 0;
         gameState = GameState.OVER;
         colorChanger.setLoseColor();
+        dialog.FromLowToHeight();
     }
 
     private void DecreaseScore()

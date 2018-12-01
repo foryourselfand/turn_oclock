@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 128732112}
   - component: {fileID: 128732114}
   - component: {fileID: 128732113}
+  - component: {fileID: 128732115}
   m_Layer: 5
   m_Name: DialogText
   m_TagString: Untagged
@@ -188,6 +189,20 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 128732111}
   m_CullTransparentMesh: 0
+--- !u!114 &128732115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 128732111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6b6e08a93b604a5dab1cdd899775ac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 7
+  start: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  end: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0}
 --- !u!1 &264599532
 GameObject:
   m_ObjectHideFlags: 0
@@ -905,8 +920,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 100
   dot: {fileID: 1611146886339970, guid: 5dbf819d38fa7435f8d251bd1ef6964d, type: 2}
-  scoreText: {fileID: 1965216778}
   colorChanger: {fileID: 519420030}
+  scoreText: {fileID: 1965216778}
+  dialog: {fileID: 128732115}
 --- !u!61 &1984308674
 BoxCollider2D:
   m_ObjectHideFlags: 0
